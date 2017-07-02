@@ -52,7 +52,7 @@ pila_t* pila_crear( void )
 
 void pila_destruir( pila_t* pila )
 {  
-	if( ! ptr_es_NULL( pila ) ) {
+	if( pila ) {
 		free( pila->datos );
 		free( pila );
 	}
