@@ -40,14 +40,15 @@ bool pila_redimensionar(pila_t* pila, size_t nueva_capacidad )
 pila_t* pila_crear( void ) 
 {
 	pila_t* pila = malloc( sizeof( pila_t ) );
-	if( pila == NULL )
-		return false;
-    pila->datos = (void**)malloc( TAM_INICIAL * sizeof( void* ) );
-    if (pila->datos== NULL) 
-		return false;
-    pila->cantidad = 0;
-    pila->capacidad = TAM_INICIAL;
-    return pila;
+	if( !pila ) return NULL;
+	pila->datos = (void**)malloc( TAM_INICIAL * sizeof( void* ) );
+	if ( !pila->datos ){
+		free(pila)
+		return NULL;
+	}
+	pila->cantidad = 0;
+	pila->capacidad = TAM_INICIAL;
+	return pila;
 } 
 
 void pila_destruir( pila_t* pila )
