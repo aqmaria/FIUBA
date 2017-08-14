@@ -1,53 +1,53 @@
 ******************************************************************
 *ORGANIZACION DEL COMPUTADOR, 2DO CUATRIMESTRE 2016
-*EDITOR HEXADECIMAL 
+*TP 109 IBM EDITOR HEXADECIMAL 
 *AQUINO MARIA LEG 99871
 ****************************************************************
-IBMTP	SUBENTRY BASES=(3,10)
-MENU	WTO	'**************BIENVENIDO**************** ' 
-	WTO	'| OPERACION			|	COD	|'
-	WTO	'******************************************'
-	WTO	'| -Abrir archivo		| A		|'
-	WTO	'|				|---------------|'
-	WTO	'| -Insertar caracter de cod HH | I DDD HH	|'
-	WTO	'|EBCIDIC en posicion DDD       |---------------|'
-	WTO	'| -Eliminar NN caracteres	| E DDD NN	|'    
-	WTO	'|a partir de la dir  DDD	|---------------|'
-	WTO	'| -Sobrescribir posicion DDD	| S DDD HH	|'
-	WTO	'|c/caracter EBCIDC de cod HH	|---------------|'
-	WTO	'| -Buscar palabra de codigo	| B HHHH	|'
-	WTO	'|	HHHH EBCDIC		|---------------|'
-	WTO	'|-Guardar archivo		| G		|'
-	WTO	'|				|---------------|'
-	WTO	'| -Salir			| Z		|'
-	WTO	'*******************************************'
-RECOP	MVC	WAITECB(8),BLANCO *BLANQUEO WAITECB
-	WTOR	'***INGRESE COMANDO***',ENTRADA,8,WAITECB
-	WAIT	ECB=WAITECB
-	MVC	BUSQDA(1),C'0'
-	MVC	HEADSCR(1),SI
-	CLI	ENTRADA,C'A'
-	BE	ABRIR
-	CLI	ENTRADA,C'Z'
-	BE	SALIR
-	CLC	ARCHVAL(1),SI
-	BNE	NOARCH
-	CLI	ENTRADA,C'E'
-	BE	EDTVAL
-	CLI	ENTRADA,C'I'
-	BE	EDTVAL
-	CLI	ENTRADA,C'S'
-	BE	EDTVAL
-	CLI	ENTRADA,C'B'
-	BE	BUSVAL
-	CLI	ENTRADA,C'G'
-	BE	GUARDAR
-ERRCMD	WTO	'COMANDO ERRONEO'
-	B	RECOP
-NOARCH	WTO	'NO SE CARGO ARCHIVO'
-	B	RECOP
-SALIR	WTO	'ADIOS'
-		SUBEXIT
+IBMTP   SUBENTRY BASES=(3,10)
+MENU    WTO   '**************BIENVENIDO**************** ' 
+	    WTO   '| OPERACION                    |   COD    |'
+	    WTO   '******************************************'
+	    WTO   '| -Abrir archivo               | A        |'
+	    WTO   '|                              |----------|'
+	    WTO   '| -Insertar caracter de cod HH | I DDD HH |'
+	    WTO   '|EBCIDIC en posicion DDD       |----------|'
+	    WTO   '| -Eliminar NN caracteres      | E DDD NN |'    
+	    WTO   '|a partir de la dir  DDD       |----------|'
+	    WTO   '| -Sobrescribir posicion DDD   | S DDD HH |'
+	    WTO   '|c/caracter EBCIDC de cod HH   |----------|'
+	    WTO   '| -Buscar palabra de codigo    | B HHHH   |'
+	    WTO   '|  HHHH EBCDIC                 |----------|'
+	    WTO   '| -Guardar archivo             | G        |'
+	    WTO   '|                              |----------|'
+	    WTO   '| -Salir                       | Z        |'
+	    WTO   '*******************************************'
+RECOP   MVC   WAITECB(8),BLANCO *BLANQUEO WAITECB
+        WTOR  '***INGRESE COMANDO***',ENTRADA,8,WAITECB
+	    WAIT  ECB=WAITECB
+	    MVC   BUSQDA(1),C'0'
+	    MVC   HEADSCR(1),SI
+	    CLI   ENTRADA,C'A'
+	    BE    ABRIR
+	    CLI   ENTRADA,C'Z'
+	    BE    SALIR
+	    CLC   ARCHVAL(1),SI
+	    BNE   NOARCH
+	    CLI   ENTRADA,C'E'
+	    BE    EDTVAL
+	    CLI   ENTRADA,C'I'
+	    BE    EDTVAL
+	    CLI   ENTRADA,C'S'
+	    BE    EDTVAL
+	    CLI   ENTRADA,C'B'
+	    BE    BUSVAL
+	    CLI   ENTRADA,C'G'
+	    BE    GUARDAR
+ERRCMD  WTO   'COMANDO ERRONEO'
+	    B     RECOP
+NOARCH  WTO   'NO SE CARGO ARCHIVO'
+        B     RECOP
+SALIR   WTO   'ADIOS'
+        SUBEXIT
 ************************************************
 * RUTINA DE APERTURA/CARGA DE ARCHIVO DE TEXTO
 ***********************************************
@@ -57,24 +57,24 @@ SALIR	WTO	'ADIOS'
 * LIMITE:MAX CANT DE REG A CARGAR
 * ARCHVAL:INDICA SI EL ARCHIVO SE CARGO
 ************************************************
-ABRIR	SP	CANTREG,CANTREG
-	OPEN	(FILEIN,(INPUT))
-	LA	4,CONTEN 
-	MVC	ARCHVAL(1),SI *ARCHIVO CARGADO
-OTROREG CP	CANTREG,LIMITE
-	BE	FINCARG
-	GET	FILEIN,REG
-	AP	CANTREG,=P'1'
-	MVC	0(1,4),REG
-	LA	4,1(4)
-	B	OTROREG
-	B	RECOP
-FINCARG WTO	'CARGA FINALIZADA'
-	CLOSE	FILEIN
-	CP	CANTREG,=P'0'
-	BNE	MOSTRAR
-	WTO	'ARCHIVO EN BLANCO'
-	B	RECOP
+ABRIR	SP    CANTREG,CANTREG
+        OPEN  (FILEIN,(INPUT))
+        LA    4,CONTEN 
+        MVC   ARCHVAL(1),SI *ARCHIVO CARGADO
+OTROREG CP    CANTREG,LIMITE
+        BE    FINCARG
+        GET   FILEIN,REG
+        AP    CANTREG,=P'1'
+        MVC   0(1,4),REG
+        LA    4,1(4)
+	    B     OTROREG
+        B     RECOP
+FINCARG WTO  'CARGA FINALIZADA'
+        CLOSE FILEIN
+        CP    CANTREG,=P'0'
+        BNE   MOSTRAR
+        WTO   'ARCHIVO EN BLANCO'
+        B     RECOP
 ***********************************************
 *RUTINA MOSTRAR POR PANTALLA
 ***********************************************
@@ -102,83 +102,83 @@ FINCARG WTO	'CARGA FINALIZADA'
 *CONVDIR=INDICA SI SE IMPRIME LA DIRECCION
 *MULTIPLO DE LENLINE                        
 ***********************************************
-MOSTRAR	ZAP	CONTREG,=P'0'
-	ZAP	REGSIMP,CANTREG
-	SR	8,8
-	SR	7,7
-	LA	7,CONTEN 
-	LA	8,LINTEX *
-	LA	9,LINPAN *
-	SP	POS,POS
-	SP	DIR,DIR
-	SP	EMPA1,EMPA1
-	SR	5,5
-PONDIR	MVC	0(16,8),0(7) *
-	CVB	5,DIR
-	ST	5,NUM
-	ZAP	LEN,=P'2'
-	MVI	CNVDIR,C'1'
-	B	HEXACAR
-COPIDIR	MVC	0(4,9),COD
-	LA	9,4(9)
-	MVI	0(9),C' '
-	LA	9,1(9)
-CNVDIG	MVC	CNVDIR(1),NO
-HAYREG1	CP	POS,LENLINE
-	BE	EBCDIC
-	AP	POS,=P'1'
-	CP	POS,REGSIMP
-	BH	PONSIM1 *SI NO HAY MAS REG IMPRIMO 'X'
-	ZAP	LEN,=P'1' 
-	MVC	NUM+3(1),0(8)
-	LA	8,1(8)
-	LA	7,1(7)
-	B	HEXACAR
-COPIDIG	MVC	0(2,9),COD *
-	LA	9,2(9)
-	B	HAYREG1
-PONSIM1 MVI	0(9),C'X'
-	LA	9,1(9)
-	MVI	0(9),C'X'
-	LA	9,1(9)
-	B	HAYREG1
-EBCDIC	SP	POS,POS *COPIO 16 BYTES EN FORMATO EBCDIC
-	LA	8,LINTEX
-	MVI	0(9),C' '
-	LA	9,1(9)
-HAYREG2	CP	POS,=P'16'
-	BE	IMPRIM
-	AP	POS,=P'1'
-	CP	POS,REGSIMP
-	BH	PONSIM2
-COPICAR TRT	0(1,8),VALCAR
-	BE	CARVAL
-	MVI	0(9),C'.' *SI EL CARACTER NO ES VISIBLE
-	LA	9,1(9)
-	LA	8,1(8)
-	B	HAYREG2
-CARVAL	MVC	0(1,9),0(8)
-	LA	9,1(9)
-	LA	8,1(8)
-	B	HAYREG2
-PONSIM2	MVI	0(9),C'X'
-	LA	9,1(9)
-	B	HAYREG2
-IMPRIM	SP	POS,POS
-	CLC	HEADSCR(1),SI
-	BNE	IMPNUMS
-	WTO	'	000102030405060708090A0B0C0D0E0F EBCDIC CONTENIDO'
-	MVC	HEADSCR(1),NO
-IMPNUMS	WTO	MF=(E,WTOBLO2)
-	LA	7,0(7)
-	LA	8,LINTEX
-	LA	9,LINPAN
-	AP	CONTREG,LENLINE 
-	AP	DIR,LENLINE
-	SP	REGSIMP,LENLINE
-	CP	CONTREG,=P'501'
-	BL	PONDIR
-	B	RECOP
+MOSTRAR ZAP   CONTREG,=P'0'
+        ZAP   REGSIMP,CANTREG
+        SR    8,8
+        SR    7,7
+        LA    7,CONTEN 
+	    LA    8,LINTEX *
+	    LA    9,LINPAN *
+	    SP    POS,POS
+	    SP    DIR,DIR
+	    SP    EMPA1,EMPA1
+	    SR    5,5
+PONDIR  MVC   0(16,8),0(7) *
+	    CVB   5,DIR
+        ST    5,NUM
+	    ZAP   LEN,=P'2'
+    	MVI   CNVDIR,C'1'
+	    B     HEXACAR
+COPIDIR	MVC   0(4,9),COD
+	    LA    9,4(9)
+	    MVI   0(9),C' '
+	    LA    9,1(9)
+CNVDIG  MVC   CNVDIR(1),NO
+HAYREG1 CP    POS,LENLINE
+        BE    EBCDIC
+        AP    POS,=P'1'
+	    CP    POS,REGSIMP
+	    BH    PONSIM1 *SI NO HAY MAS REG IMPRIMO 'X'
+	    ZAP   LEN,=P'1' 
+	    MVC   NUM+3(1),0(8)
+	    LA    8,1(8)
+	    LA    7,1(7)
+	    B     HEXACAR
+COPIDIG MVC   0(2,9),COD *
+        LA    9,2(9)
+        B     HAYREG1
+PONSIM1 MVI   0(9),C'X'
+        LA    9,1(9)
+        MVI   0(9),C'X'
+        LA    9,1(9)
+	    B     HAYREG1
+EBCDIC  SP    POS,POS *COPIO 16 BYTES EN FORMATO EBCDIC
+        LA    8,LINTEX
+        MVI   0(9),C' '
+	    LA    9,1(9)
+HAYREG2 CP    POS,=P'16'
+	    BE    IMPRIM
+	    AP    POS,=P'1'
+	    CP    POS,REGSIMP
+	    BH    PONSIM2
+COPICAR TRT   0(1,8),VALCAR
+        BE    CARVAL
+	    MVI   0(9),C'.' *SI EL CARACTER NO ES VISIBLE
+ 	    LA    9,1(9)
+	    LA    8,1(8)
+	    B     HAYREG2
+CARVAL  MVC   0(1,9),0(8)
+        LA    9,1(9)
+	    LA    8,1(8)
+	    B     HAYREG2
+PONSIM2 MVI   0(9),C'X'
+        LA    9,1(9)
+	    B     HAYREG2
+IMPRIM  SP    POS,POS
+        CLC   HEADSCR(1),SI
+	    BNE   IMPNUMS
+	    WTO   '     000102030405060708090A0B0C0D0E0F EBCDIC CONTENIDO'
+	    MVC   HEADSCR(1),NO
+IMPNUMS WTO   MF=(E,WTOBLO2)
+        LA    7,0(7)
+	    LA    8,LINTEX
+	    LA    9,LINPAN
+        AP    CONTREG,LENLINE 
+	    AP    DIR,LENLINE
+	    SP    REGSIMP,LENLINE
+	    CP    CONTREG,=P'501'
+	    BL    PONDIR
+	    B     RECOP
 **************************************************
 *RUTINA HEXACAR : CONVIERTE DIGITOS HEX A CARACTERES                
 **************************************************
@@ -201,48 +201,48 @@ IMPNUMS	WTO	MF=(E,WTOBLO2)
 *EMPA2:CONTADOR DE POSICIONES EN LA TABHEX
 *EMPA1:4 BITS DEL BYTE CARGADO EN TEMP EN DECIMAL
 ****************************************************
-HEXACAR LA	6,COD
-	LA	2,NUM
-	ZAP	CONT,FW 
-	ZAP	EMPA4,LEN
-DESPNUM CP	CONT,EMPA4
-	BE	SICONT0
-	LA	2,1(2)
-	SP	CONT,=P'1'
-	B	DESPNUM *ME DESPLAZO HASTA EL BYTE A CNVERTIR
-SICONT0	CP	CONT,=P'0'
-	BNE	SIGO
-	CLC	CNVDIR(1),SI
-	BE	COPIDIR
-	CLC	BUSQDA(1),SI
-	BE	IMPRES
-	B	COPIDIG
-SIGO	SR	5,5
-	MVC	TEMP+3(1),0(2) *COPIO 1 BYTE A CONVERTIR
-	SP	EMPA1,EMPA1
-	CVD	5,EMPA2 *EMPA2=0
-	LA	4,TABHEXA
-	L	5,TEMP
-	N	5,=X'000000FF' *AISLO ULTIMO BYTE
-	CLC	DESP(1),SI
-	BE	SIDESP
-	MVC	DESP(1),SI
-	SRL	5,4 *ME QUEDO CON PRIMEROS 4 BITS
-	CVD	5,EMPA1 *GUARDO EN EMPA1
-COMCAR	CP	EMPA2,EMPA1 
-	BE	COPIAR
-	AP	EMPA2,=P'1' *AUMENTO EMPA2 
-	LA	4,1(4) *ME DESPLAZO UNA POS MAS EN LA TAB
-	B	COMCAR
-COPIAR	MVC	0(1,6),0(4) *COPIO CARAC DE LA TAB
-	LA	6,1(6)
-	B	SICONT0
-SIDESP	N	5,MASC *AISLO ULTIMOS 4 BITS DE TEMP
-	LA	2,1(2) 
-	CVD	5,EMPA1 *GUARDO EN EMPA
-	SP	CONT,=P'1' *YA CONVERTI UN BYTE
-	MVC	DESP(1),NO
-	B	COMCAR
+HEXACAR LA    6,COD
+        LA    2,NUM
+        ZAP   CONT,FW 
+        ZAP   EMPA4,LEN
+DESPNUM CP    CONT,EMPA4
+        BE    SICONT0
+	    LA    2,1(2)
+	    SP    CONT,=P'1'
+        B     DESPNUM *ME DESPLAZO HASTA EL BYTE A CNVERTIR
+SICONT0 CP    CONT,=P'0'
+        BNE   SIGO
+	    CLC   CNVDIR(1),SI
+	    BE    COPIDIR
+	    CLC   BUSQDA(1),SI
+	    BE    IMPRES
+	    B     COPIDIG
+SIGO    SR    5,5
+        MVC   TEMP+3(1),0(2) *COPIO 1 BYTE A CONVERTIR
+	    SP    EMPA1,EMPA1
+	    CVD   5,EMPA2 *EMPA2=0
+	    LA    4,TABHEXA
+	    L     5,TEMP
+	    N     5,=X'000000FF' *AISLO ULTIMO BYTE
+	    CLC   DESP(1),SI
+	    BE    SIDESP
+	    MVC   DESP(1),SI
+	    SRL   5,4 *ME QUEDO CON PRIMEROS 4 BITS
+	    CVD   5,EMPA1 *GUARDO EN EMPA1
+COMCAR  CP    EMPA2,EMPA1 
+	    BE    COPIAR
+	    AP    EMPA2,=P'1' *AUMENTO EMPA2 
+	    LA    4,1(4) *ME DESPLAZO UNA POS MAS EN LA TAB
+   	    B     COMCAR
+COPIAR  MVC   0(1,6),0(4) *COPIO CARAC DE LA TAB
+        LA    6,1(6)
+	    B     SICONT0
+SIDESP  N     5,MASC *AISLO ULTIMOS 4 BITS DE TEMP
+        LA    2,1(2) 
+	    CVD   5,EMPA1 *GUARDO EN EMPA
+	    SP    CONT,=P'1' *YA CONVERTI UN BYTE
+	    MVC   DESP(1),NO
+	    B     COMCAR
 ********************************************
 *RUTINA CARAHEX:CONVIERTE CARACTERES HEX A DIGITOS HEX
 *********************************************
@@ -258,26 +258,26 @@ SIDESP	N	5,MASC *AISLO ULTIMOS 4 BITS DE TEMP
 *R9:TIENE ALMACENADA LA DIRECCION DE LA PROXIMA
 *INSTRUCCION A EJECUTARSE FUERA DE LA RUTINA
 *********************************************
-CARAHEX SR	4,4
-	SP	EMPA1,EMPA1
-	LA	1,TEMP *CARGO DIR DE DATO DE ENTRADA
-	L	2,16    
-	B	CARGTAB
-MOVER	CVB	4,EMPA1 *EL DESPLAZAMIENTO LO GUARDO EN R4
-	SLL	4,4 *LO CORRO 4 BITS A LA IZQ
-	CVD	4,EMPA1 *LO CONVIERTO A DECIMAL EN EMPA1
-CARGTAB	LA	5,TABHEXA
-COMPHEX	CLC	0(1,1),0(5) *COMPARO CARACTER CON TABLA
-	BE	SIGNUM
-	AP	EMPA1,=P'1' *CALCULO DESPLAZAMIENTO EN TABLA
-	LA	5,1(5)
-	BCT	2,COMPHEX
-SIGNUM	LA	1,1(1) *COMPARO EL PROXIMO CARACTER
-	LA	2,16
-	SP	LEN,=P'1' *RESTO BYTE CONVERTIDO 
-	BNE	MOVER
-	CVB	4,EMPA1
-	BR	9
+CARAHEX SR    4,4
+        SP    EMPA1,EMPA1
+        LA    1,TEMP *CARGO DIR DE DATO DE ENTRADA
+	    LA    2,16    
+        B     CARGTAB
+MOVER	CVB   4,EMPA1 *EL DESPLAZAMIENTO LO GUARDO EN R4
+	    SLL   4,4 *LO CORRO 4 BITS A LA IZQ
+	    CVD   4,EMPA1 *LO CONVIERTO A DECIMAL EN EMPA1
+CARGTAB LA    5,TABHEXA
+COMPHEX CLC   0(1,1),0(5) *COMPARO CARACTER CON TABLA
+        BE    SIGNUM
+	    AP    EMPA1,=P'1' *CALCULO DESPLAZAMIENTO EN TABLA
+	    LA    5,1(5)
+        BCT   2,COMPHEX
+SIGNUM  LA    1,1(1) *COMPARO EL PROXIMO CARACTER
+	    LA    2,16
+        SP    LEN,=P'1' *RESTO BYTE CONVERTIDO 
+	    BNE   MOVER
+	    CVB   4,EMPA1
+        BR    9
 **********************************************
 *RUTINA PARA VALIDAR DDD,HH y HHHH           *
 **********************************************
@@ -294,54 +294,55 @@ SIGNUM	LA	1,1(1) *COMPARO EL PROXIMO CARACTER
 *R9: GUARDA PROXIMA INSTRUCCI?N POSTERIOR
 *A LA BIFURCACI?N A CARAHEX
 *********************************************
-OUTRANG	WTO	'EXCEDE RANGO'
-	B	RECOP
-ERRCANT	WTO	'NO SE PUEDE ELIMINAR ESA CANTIDAD'
-	B	RECOP
-VALSOB	ZAP	EMPA1,CANTREG
-	SP	EMPA1,=P'1'
-	CP	DIR,EMPA1
-	BL	SIGOCNV
-	WTO	'NO PUEDE SOBREESCRIBIR EN ESA DIRECCION'
-	B	RECOP
-ERRBSQ	WTO	'NO SE PUEDE BUSCAR'
-	B	RECOP
-EDTVAL	MVC	TEMP(3),ENTRADA+2
-	TRT	TEMP(3),VALNUM
-	BNE	ERRCMD
-	ZAP	LEN,=P'3'
-	BAL	9,CARAHEX **
-	CVD	4,DIR
-	CLI	ENTRADA,C'I'
-	BNE	SIGOCNV
-	CLI     ENTRADA,C'S'
-	BE      VALSOB
-	CP	DIR,CANTREG *PUEDO INSERTAR EN DIR<=CANTREG
-	BH	OUTRANG
-SIGOCNV	MVC	TEMP(2),ENTRADA+6
-	TRT	TEMP(2),VALNUM
-	BNE	ERRCMD
-	ZAP	LEN,=P'2'
-	BAL	9,CARAHEX
-	STC	4,COD
-	B	CARGTEX
-BUSVAL	CP	CANTREG,=P'2'
-	BL	ERRBSQ
-	MVC	TEMP(4),ENTRADA+2
-	TRT	TEMP,VALNUM
-	BNE	ERRCMD
-	ZAP	LEN,=P'4'
-	BAL	9,CARAHEX
-	ST	4,COD
-	MVC	LINEA(2),COD+2
-	BNE	ERRCMD
-	MVI	BUSQDA,C'1'
-	B	BUSCAR
+OUTRANG WTO   'EXCEDE RANGO'
+        B      RECOP
+ERRCANT WTO   'NO SE PUEDE ELIMINAR ESA CANTIDAD'
+        B      RECOP
+VALSOB   ZAP   EMPA1,CANTREG
+        SP    EMPA1,=P'1'
+        CP    DIR,EMPA1
+        BL    NEXT
+        WTO   'NO PUEDE SOBREESCRIBIR EN ESA DIRECCION'
+        B     RECOP
+ERRBSQ  WTO   'NO SE PUEDE BUSCAR'
+        B     RECOP
+EDTVAL  CLI   ENTRADA,C'S'
+        BE    VALSOB
+NEXT    MVC   TEMP(3),ENTRADA+2
+	    TRT   TEMP(3),VALNUM
+	    BNE   ERRCMD
+	    ZAP   LEN,=P'3'
+	    BAL   9,CARAHEX **
+	    CVD   4,DIR
+	    CLI   ENTRADA,C'I'
+	    BNE   SIGOCNV
+	    CP    DIR,CANTREG *PUEDO INSERTAR EN DIR<=CANTREG
+	    BH    OUTRANG
+SIGOCNV MVC   TEMP(2),ENTRADA+6
+	    TRT   TEMP(2),VALNUM
+	    BNE   ERRCMD
+        ZAP   LEN,=P'2'
+	    BAL   9,CARAHEX
+	    STC   4,COD
+	    B     CARGTEX
+BUSVAL  CP    CANTREG,=P'2'
+        BL    ERRBSQ
+        MVC   TEMP(4),ENTRADA+2
+	    TRT   TEMP,VALNUM
+	    BNE   ERRCMD
+	    ZAP   LEN,=P'4'
+	    BAL   9,CARAHEX
+	    ST    4,COD
+	    MVC   LINEA(2),COD+2
+	    BNE   ERRCMD
+	    MVI   BUSQDA,C'1'
+	    B     BUSCAR
 ******************************************************
-*RUTINA QUE REALIZA OPERACIONES CON EL CONTENIDO DE ARCHIVO
+*RUTINA QUE REALIZA OPERACIONES CON EL CONTENDIO DE ARCHIVO
 ******************************************************
 *R7:PUNTERO A CONTEN(CONTENIDO DEL ARCHIVO)
-*R8:PUNTERO A ...
+*R8:PUNTERO A CONTEM(VARIABLE AUXILIAR PARA 
+*ALMACENAR REGISTROS QUE SE VAN A DESPLAZAR)
 *DIR:DIRECCION INSERTADA POR EL USUARIO(DATO DE ENTRADA)
 *COD:CODIGO HEXADECIMAL INSERTADO POR ELUSUARIO(DATO DE ENT)
 *POS:1)INDICA HASTA QUE POSICION HAY QUE 
@@ -350,9 +351,12 @@ BUSVAL	CP	CANTREG,=P'2'
 *2)EN BUSCAR SE UTILIZA COMO CONTADOR
 *DE POSICIONES EN CONTEN
 *CANTREG:CANTIDAD DE REGISTROS DEL ARCHIVO
-*CONT:INDICA CANTIDAD DE REGISTROS QUE...
+*CONT:INDICA CANTIDAD DE REGISTROS QUE SE VAN A COPIAR
+*A CONTEM.
 *LIMITE:MAX CANT DE REGISTROS PARA OPERAR
-*EMPA1:VARIABLE AUXILIAR QUE ...
+*EMPA1:VARIABLE AUXILIAR QUE SE USA
+*PARA CALCULAR CANTIDAD DE REGISTROS A COPIAR
+*Y LUEGO SE UTILIZA COMO CONTADOR.
 *CANTEL:CANTIDAD DE REGISTROS A ELIMINAR
 *R5:SE UTILIZA PARA CONVERTIR UNA DIRECCION A BINARIO
 *NUM:SE GUARDA LA DIRECCION CONVERTIDA EN R5
@@ -361,115 +365,215 @@ BUSVAL	CP	CANTREG,=P'2'
 *PARA BUSCAR COINCIDENCIAS EN CONTEN
 *HEADB:INDICA SI SE IMPRIME EL ENCABEZADO
 *QUE AFIRMA QUE SE ENCONTRARON RESULTADOS
-******************************************************
-*... Quité la parte más complicada,en caso de seguir vigente el trabajo practico 
-*...
-*...
-*...
-*...
-*...
+*****************************************************
+ERRELI  WTO   'NO SE PUEDE ELIMINAR ESA CANTIDAD'
+        B     MENU
+CARGTEX LA    7,CONTEN
+        LA    8,CONTEMP
+        CLI   ENTRADA,C'S'
+        BE    IRDDD2
+        CLI   ENTRADA,C'E'
+        BE    ELIM
+        ZAP   POS,DIR *POS=DIR PARA MOVERME E INSERTAR
+        ZAP   EMPA1,CANTREG *CANTREG=CR
+        SP    EMPA1,DIR *EMPA1 LIM DDD A COPIAR=CR-DIR>0
+        ZAP   CONT,EMPA1 *GUARDO EN CONT
+        CP    CANTREG,LIMITE
+        BNE   IRDDD1
+        SP    EMPA1,=P'1' *COMO CR>500 COPIARE 1 MENOS
+        ZAP   CONT,EMPA1 *GUARDO EN CONT
+        B     IRDDD1
+ELIM    SR    4,4
+        IC    4,COD
+	    CVD   4,CANTEL
+        ZAP   EMPA1,CANTREG
+        SP    EMPA1,DIR 
+        AP    EMPA1,=P'1'
+        CP    CANTEL,EMPA1
+        BH    ERRELI * NO SE PUEDE ELIMINAR CANT PEDIDA
+        CP    CANTEL,EMPA1
+        BE    ERRELI
+        SP    EMPA1,CANTEL *EMPA1 REG A COP =CR-DIR-CANTEL
+        ZAP   CONT,EMPA1 *GUARDO EN CONT
+        ZAP   POS,DIR
+        AP    POS,CANTEL *POS=DIR+NN PARA MOVERME Y COPIAR
+IRDDD1  CP    POS,=P'0' *ME MUEVO HASTA DDD EN CONTEN   
+        BE    MOVATEM
+        LA    7,1(7)
+        SP    POS,=P'1'
+        B     IRDDD1
+MOVATEM CP    EMPA1,=P'0' *COPIO REGISTROS A MOVER EN CONTEM
+        BE    IRDDD2
+        MVC   0(1,8),0(7)
+        LA    8,1(8)
+        LA    7,1(7)  *
+        SP    EMPA1,=P'1' 
+        B     MOVATEM
+IRDDD2  ZAP   POS,DIR *VOY A DIRECCION INDICADA POR USUARIO
+        LA    7,CONTEN 
+SIG     CP    POS,=P'0'
+        BE    CHEQOP
+        LA    7,1(7)
+        SP    POS,=P'1'
+        B     SIG
+CHEQOP  LA    8,CONTEMP
+        SP    EMPA1,EMPA1
+        CLI   ENTRADA,C'E'
+        BE    COPIRE
+INSCAR  MVC   0(1,7),COD  *INSERTO CARACTER
+	    CLI   ENTRADA,C'S'
+	    BE    MOSTRAR 
+	    LA    7,1(7)
+COPIRE  CP    EMPA1,CONT
+        BE    ACTUAL
+        MVC   0(1,7),0(8) *COPIO REG RESTANTES
+        LA    7,1(7)
+        LA    8,1(8)
+        AP    EMPA1,=P'1'
+        B     COPIRE
+ACTUAL  CLI   ENTRADA,C'I' *ACTUALIZO CANT DE REGISTROS
+        BNE   MENOSRG
+        CP    CANTREG,LIMITE
+        BE    MOSTRAR * YA SE ALCANZO MAX CANT
+        AP    CANTREG,=P'1'
+        B     MOSTRAR
+MENOSRG SP    CANTREG,CANTEL
+        B     MOSTRAR
+BUSCAR  WTO   'BUSCANDO...'
+        LA    7,CONTEN
+        ZAP   LEN,=P'2'
+        SP    POS,POS
+        SR    5,5
+        MVC   TEMP2(2),COD+2 
+COM2CAR CP    POS,CANTREG
+        BE    FINBUSQ
+        CLC   0(2,7),TEMP2
+        BE    CONVRES
+        AP    POS,=P'1'
+        LA    7,1(7)
+        B     COM2CAR
+CONVRES CVB   5,POS
+        ST    5,NUM
+        B     HEXACAR
+IMPRES  CLC   HEADB(1),NO
+        BNE   SIGOIMP
+        WTO   'SE ENCONTRARON COINCIDENCIAS EN'
+        WTO   'LAS SIGUIENTES DIRECCIONES:'
+        MVC   HEADB(1),SI
+SIGOIMP MVC   LINEA(4),COD
+        WTO   MF=(E,WTOBLO1)
+        AP    POS,=P'2'
+        LA    7,2(7) *PARA QUE NO REPITA RESULTADOS
+        B     COM2CAR
+FINBUSQ CLC   HEADB(1),SI
+        BE    HEADBNO
+        WTO   'NO SE ENCONTRARON RESULTADOS !!'
+        B     RECOP
+HEADBNO MVC   HEADB(1),NO
+        B     RECOP
 ********************************************************
 *GUARDAR
 ******************************************************
-GUARDAR	LA	7,CONTEN
-	ZAP	CONTREG,CANTREG
-	OPEN	(FILEOUT,(OUTPUT))
-COMCANT	CP	CONTREG,=P'0'
-	BE	EOF    
-	MVC	REG(1),0(7)
-	PUT	FILEOUT,REG
-	LA	7,1(7)
-	SP	CONTREG,=P'1'
-	B	COMCANT
-EOF	CLOSE	FILEOUT
-	WTO	'ARCHIVO GUARDADO'
-	B	MENU
+GUARDAR LA    7,CONTEN
+        ZAP   CONTREG,CANTREG
+        OPEN  (FILEOUT,(OUTPUT))
+COMCANT CP    CONTREG,=P'0'
+        BE    EOF    
+        MVC   REG(1),0(7)
+        PUT   FILEOUT,REG
+        LA    7,1(7)
+        SP    CONTREG,=P'1'
+        B     COMCANT
+EOF     CLOSE FILEOUT
+        WTO   'ARCHIVO GUARDADO'
+        B     MENU
 *******************************************************
 *DEFINICIONES
 *******************************************************
-BLANCO	DC	CL8' '
-WAITECB	DC	2F'0'
-ENTRADA	DS	CL8
-FILEIN	DCB	DSNAME=FNAME,LRECL=1,RECFM=FB,MACRF=GM,EODAD=FINCARG
-FILEOUT	DCB	DSNAME=FNAME,LRECL=1,RECFM=FB,MACRF=PM
-FNAME	DC	C'c:\z390\TEXTO.txt',X'00'
-REG	DS	XL1
-CONTEN	DS	32XL16
-CONTEMP	DS	32XL16
-ARCHVAL	DC	C'0'  
-CANTREG	DC	PL8'0'
-VALNUM	DS	0CL256
-	DC	193C'*'
-	DC	6X'00'
-	DC	41C'*'
-	DC	10X'00'
-	DC	6C'*'
-LEN	DC	PL1'0'
-TEMP	DC	F'0'   *TEMP
-DIR	DC	PL8'0' *DIRE EN DEC
-COD	DC	F'0'
-VALCAR	DS	0CL256 *TABLA DE CARAC EBCDIC VALIDOS
-	DC	64C'*'
-	DC	 1X'00'
-	DC	9C'*'
-	DC	7X'00'
-	DC	9C'*'
-	DC	5X'00'
-	DC	1C'*'
-	DC	2X'00'
-	DC	8C'*'
-	DC	6X'00'
-	DC	10C'*'
-	DC	6X'00'
-	DC	1C'*'
-	DC	9X'00'
-	DC	7C'*'
-	DC	9X'00'
-	DC	8C'*'
-	DC	8X'00'
-	DC	3C'*'
-	DC	1X'00'
-	DC	15C'*'
-	DC	1X'00'
-	DC	2C'*'
-	DC	10X'00'
-	DC	6C'*'      
-	DC	10X'00'
-	DC	6C'*'
-	DC	1X'00'
-	DC	1C'*'
-	DC	8X'00'
-	DC	6C'*'
-	DC	10X'00'
-	DC	6C'*'
-TABHEXA DC	CL16'0123456789ABCDEF'
-WTOBLO1 DC	H'8'
-	DC	H'0'
-LINEA	DS	CL4
-LINTEX	DS	CL16
-WTOBLO2	DC	H'58'
-	DC	H'0'
-LINPAN	DS	CL54
-NUM	DC	F'0'
-DESP	DC	C'0'
-EMPA1	DC	PL8'0'
-EMPA2	DC	PL8'0'
-EMPA3	DC	PL3'0'
-EMPA4	DC	PL3'0'
-EMPA5	DC	PL8'0'
-POS	DC	PL8'0'
-CONT	DC	PL8'0'
-MASC	DC	X'0000000F'
-CNVDIR	DC	C'1'
-REGSIMP	DC	PL8'0'
-CONTREG	DC	PL3'0'
-HEADB	DC	C'0'
-HEADSCR	DC	C'1'
-CANTEL	DC	PL8'0'
-BUSQDA	DC	C'0'
-TEMP2	DC	F'0'
-LIMITE	DC	P'500'
-LENLINE	DC	P'16'
-SI	DC	C'1'
-NO	DC	C'0'
-FW	DC	P'4'
+BLANCO  DC    CL8' '
+WAITECB DC    2F'0'
+ENTRADA DS    CL8
+FILEIN  DCB   DSNAME=FNAME,LRECL=1,RECFM=FB,MACRF=GM,EODAD=FINCARG
+FILEOUT DCB   DSNAME=FNAME,LRECL=1,RECFM=FB,MACRF=PM
+FNAME   DC    C'c:\z390\TEXTO.txt',X'00'
+REG     DS    XL1
+CONTEN  DS    32XL16
+CONTEMP DS    32XL16
+ARCHVAL DC    C'0'  
+CANTREG DC    PL8'0'
+VALNUM  DS    0CL256
+        DC    193C'*'
+	    DC    6X'00'
+	    DC    41C'*'
+	    DC    10X'00'
+	    DC    6C'*'
+LEN     DC    PL1'0'
+TEMP    DC    F'0'   *TEMP
+DIR     DC    PL8'0' *DIRE EN DEC
+COD     DC    F'0'
+VALCAR  DS    0CL256 *TABLA DE CARAC EBCDIC VALIDOS
+        DC    64C'*'
+        DC    1X'00'
+        DC    9C'*'
+        DC    7X'00'
+        DC    9C'*'
+        DC    5X'00'
+        DC    1C'*'
+        DC    2X'00'
+        DC    8C'*'
+        DC    6X'00'
+        DC    10C'*'
+        DC    6X'00'
+        DC    1C'*'
+        DC    9X'00'
+        DC    7C'*'
+        DC    9X'00'
+        DC    8C'*'
+        DC    8X'00'
+        DC    3C'*'
+        DC    1X'00'
+        DC    15C'*'
+        DC    1X'00'
+        DC    2C'*'
+        DC    10X'00'
+        DC    6C'*'      
+        DC    10X'00'
+        DC    6C'*'
+        DC    1X'00'
+        DC    1C'*'
+        DC    8X'00'
+        DC    6C'*'
+        DC    10X'00'
+        DC    6C'*'
+TABHEXA DC    CL16'0123456789ABCDEF'
+WTOBLO1 DC    H'8'
+        DC    H'0'
+LINEA   DS    CL4
+LINTEX	DS    CL16
+WTOBLO2 DC    H'58'
+        DC    H'0'
+LINPAN  DS    CL54
+NUM     DC    F'0'
+DESP    DC    C'0'
+EMPA1   DC    PL8'0'
+EMPA2   DC    PL8'0'
+EMPA3   DC    PL3'0'
+EMPA4   DC    PL3'0'
+EMPA5   DC    PL8'0'
+POS     DC    PL8'0'
+CONT    DC    PL8'0'
+MASC    DC    X'0000000F'
+CNVDIR  DC    C'1'
+REGSIMP DC    PL8'0'
+CONTREG DC    PL3'0'
+HEADB   DC    C'0'
+HEADSCR DC    C'1'
+CANTEL  DC    PL8'0'
+BUSQDA  DC    C'0'
+TEMP2   DC    F'0'
+LIMITE  DC    P'500'
+LENLINE DC    P'16'
+SI      DC    C'1'
+NO      DC    C'0'
+FW      DC    P'4'
+	    END
