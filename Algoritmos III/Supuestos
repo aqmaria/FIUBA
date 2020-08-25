@@ -1,0 +1,29 @@
+Avance dinámico:
+  "si sacó 11 o 12 => avanza el numero sacado menos la sumatoria de propiedades del jugador.
+  Tanto los terrenos como las casas como los hoteles suman como propiedad."
+
+    En caso de que el numero de propiedades sea mayor que el numero del dado, retrocedera
+
+
+Impuesto al Lujo:
+  "El jugador que caiga en esta casilla debe pagar el 10 % de todo su efectivo"
+
+    Se redondea para abajo
+
+
+Retroceso dinámico:
+  "Si sacó 2,3,4,5 o 6 =>  retrocede el número sacado menos la sumatoria de propiedades del jugador.
+  Tanto los terrenos como las casas como los hoteles suman como propiedad."
+
+    En caso de que el numero de propiedades sea mayor que el numero del dado, avanzara
+
+
+//Cuando un jugador se quede sin dinero y sin propiedades quedará eliminado.
+//
+//  Se tomara como jugador eliminado si se queda sin propiedades y con dinero menor a 0
+//  (debiendo plata despues de haber vendido todo). Si pudo pagar sus deudas quedandose sin propiedades
+//  y con dinero = 0, no quedara eliminado.
+Esto no ya que en ningun lado dice que cobre al pasar por la salida, asi que un jugador sin dinero ni
+propiedades no puede hacer nada para ganar
+
+En caso de caer en avance/retroceso dinamico, se activara el casillero donde caiga despues de esto.
