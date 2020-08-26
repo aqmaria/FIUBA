@@ -7,4 +7,4 @@
 `` 
 #
 
-los archivos .png son capturas de los programas
+los archivos .png son capturas de los programas siendo ejecutados en consola
